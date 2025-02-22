@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoofyAhh BrAINRoT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BraInROt PrOMAxx</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -15,27 +15,40 @@
             font-family: 'Orbitron', sans-serif;
             background: #0a0015;
             color: #fff;
-            min-height: 100vh;
+            height: 100vh;
+            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             background-image: linear-gradient(45deg, #ff00ff33, #00ffcc33);
             animation: glitch-bg 4s infinite, pulse-bg 5s infinite;
-            position: relative;
+            position: fixed;
             overflow: hidden;
+            margin: 0;
         }
         .container {
-            background: rgba(10, 0, 20, 0.85);
-            padding: 20px;
+            background: rgba(10, 0, 20, 0.65);
+            padding: 15px;
             border: 3px solid #ff00ff;
             border-radius: 10px;
             box-shadow: 0 0 25px #00ffcc, inset 0 0 15px #ff00ff;
             width: 90%;
-            max-width: 1000px;
-            margin: 20px;
-            position: relative;
+            max-width: 800px;
+            height: auto;
+            max-height: 80vh;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 2;
+            transition: opacity 0.3s;
+            overflow: hidden;
+            will-change: transform;
+            display: none;
+        }
+        .container:hover {
+            opacity: 0.85;
         }
         h1 {
             font-size: clamp(2em, 8vw, 4em);
@@ -43,12 +56,12 @@
             text-shadow: 0 0 15px #ff00ff, 0 0 25px #ff00ff;
             text-align: center;
             animation: flicker 0.15s infinite alternate;
+            margin-bottom: 10px;
         }
         .button-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 10px;
-            margin-top: 20px;
             max-height: 60vh;
             overflow-y: auto;
             padding-right: 10px;
@@ -66,7 +79,7 @@
         }
         button {
             padding: 10px;
-            font-size: clamp(0.8em, 3vw, 1em);
+            font-size: 16px;
             border: 1px solid #00ffcc;
             border-radius: 5px;
             background: linear-gradient(45deg, #1a0033, #ff00ff);
@@ -83,7 +96,10 @@
             box-shadow: 0 0 15px #ff00ff;
             background: linear-gradient(45deg, #ff00ff, #00ffcc);
         }
-        .effect, .lightning {
+        button:active {
+            box-shadow: 0 0 20px #00ffcc;
+        }
+        .effect, .lightning, .weird-emoji {
             position: absolute;
             pointer-events: none;
         }
@@ -92,17 +108,68 @@
             color: #ff00ff;
             text-shadow: 0 0 10px #00ffcc;
             animation: glitch-explode 0.6s ease-out forwards;
-            font-family: 'Orbitron', sans-serif;
+            left: clamp(10%, calc(50% - 50px), 90%);
+            top: clamp(10%, calc(50% - 50px), 90%);
         }
         .lightning {
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             background: rgba(255, 255, 255, 0.8);
             opacity: 0;
             animation: lightning-flash 0.2s linear;
             clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+        }
+        .weird-emoji {
+            font-size: clamp(2em, 5vw, 4em);
+            opacity: 0.5;
+            animation: emoji-chaos 8s linear infinite;
+            transform-origin: center;
+        }
+        .warning-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        .warning-content {
+            background: rgba(10, 0, 20, 0.85);
+            padding: 20px;
+            border: 2px solid #ff00ff;
+            border-radius: 10px;
+            text-align: center;
+            color: #fff;
+            max-width: 500px;
+            box-shadow: 0 0 20px #00ffcc;
+        }
+        .warning-content h2 {
+            color: #00ffcc;
+            text-shadow: 0 0 10px #ff00ff;
+            margin-bottom: 15px;
+        }
+        .warning-content p {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .warning-content button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: 1px solid #00ffcc;
+            border-radius: 5px;
+            background: linear-gradient(45deg, #ff00ff, #00ffcc);
+            color: #fff;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .warning-content button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #ff00ff;
         }
         @keyframes glitch-bg {
             0%, 100% { background-position: 0 0; }
@@ -123,28 +190,65 @@
             50% { opacity: 0.8; transform: scale(1.2); }
             100% { opacity: 0; transform: scale(1.5); }
         }
-        @keyframes earthquake {
-            0% { transform: translate(0, 0); }
-            10% { transform: translate(-30px, -30px); }
-            20% { transform: translate(30px, 30px); }
-            30% { transform: translate(-40px, 40px); }
-            40% { transform: translate(40px, -40px); }
-            50% { transform: translate(-50px, 50px); }
-            60% { transform: translate(50px, -50px); }
-            70% { transform: translate(-60px, 60px); }
-            80% { transform: translate(60px, -60px); }
-            90% { transform: translate(-70px, 70px); }
-            100% { transform: translate(0, 0); }
+        @keyframes intense-earthquake {
+            0% { transform: translate(-50%, -50%) translate(0, 0); }
+            10% { transform: translate(-50%, -50%) translate(-2%, 2%); }
+            20% { transform: translate(-50%, -50%) translate(2%, -2%); }
+            30% { transform: translate(-50%, -50%) translate(-3%, 3%); }
+            40% { transform: translate(-50%, -50%) translate(3%, -3%); }
+            50% { transform: translate(-50%, -50%) translate(-4%, 4%); }
+            60% { transform: translate(-50%, -50%) translate(4%, -4%); }
+            70% { transform: translate(-50%, -50%) translate(-3%, 3%); }
+            80% { transform: translate(-50%, -50%) translate(3%, -3%); }
+            90% { transform: translate(-50%, -50%) translate(-2%, 2%); }
+            100% { transform: translate(-50%, -50%) translate(0, 0); }
         }
         @keyframes pulse-bg {
             0%, 100% { background-color: #0a0015; }
             50% { background-color: #1a0033; }
         }
+        @keyframes emoji-chaos {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            20% { transform: translate(-50vw, 50vh) rotate(180deg) scale(1.5); }
+            40% { transform: translate(50vw, -50vh) rotate(360deg) scale(0.8); }
+            60% { transform: translate(-30vw, -30vh) rotate(540deg) scale(1.2); }
+            80% { transform: translate(30vw, 30vh) rotate(720deg) scale(0.9); }
+            100% { transform: translate(0, 0) rotate(900deg) scale(1); }
+        }
+        @keyframes gradient-glitch {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 10px;
+            }
+            .button-grid {
+                max-height: 50vh;
+            }
+            button {
+                font-size: 14px;
+            }
+            .warning-content {
+                padding: 15px;
+                max-width: 90%;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>GoofyAhh BrAINRoT</h1>
+    <div class="warning-modal" id="seizure-warning">
+        <div class="warning-content">
+            <h2>Photosensitive Seizure Warning</h2>
+            <p>This website contains flashing lights, rapid animations, and intense visual effects that may trigger seizures for individuals with photosensitive epilepsy or similar conditions. Proceed with caution.</p>
+            <button onclick="dismissWarning()">Enter Site</button>
+        </div>
+    </div>
+
+    <div class="container" id="main-container">
+        <h1>BraInROt PrOMAxx</h1>
         <div class="button-grid">
             <button onclick="speakBrainrot('Sigma Rizz')">Sigma Rizz</button>
             <button onclick="speakBrainrot('Skibidi Bop')">Skibidi Bop</button>
@@ -201,54 +305,128 @@
 
     <script>
         const synth = window.speechSynthesis;
+        let voices = [];
+        let isTtsReady = false;
+        let lastSpeakTime = 0;
+        const debounceDelay = 100;
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        // Function to play a simple beep sound
+        function playBeepSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.frequency.value = 440; // Frequency in Hz (A4 note)
+            oscillator.type = 'square'; // Type of waveform
+            gainNode.gain.value = 0.1; // Volume
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.1); // Duration of the beep
+        }
+
+        function preloadVoices() {
+            voices = synth.getVoices();
+            if (voices.length === 0) {
+                window.speechSynthesis.onvoiceschanged = () => {
+                    voices = synth.getVoices();
+                    if (voices.length > 0) {
+                        isTtsReady = true;
+                        warmUpTts();
+                    }
+                };
+            } else {
+                isTtsReady = true;
+                warmUpTts();
+            }
+        }
+
+        function warmUpTts() {
+            const initUtterance = new SpeechSynthesisUtterance('');
+            initUtterance.volume = 0;
+            synth.speak(initUtterance);
+        }
+
+        preloadVoices();
 
         function speakBrainrot(text) {
+            const now = Date.now();
+            if (now - lastSpeakTime < debounceDelay) {
+                return;
+            }
+            lastSpeakTime = now;
+
+            playBeepSound(); // Play the beep sound when the button is pressed
+
             synth.cancel();
+
+            if (!isTtsReady || voices.length === 0) {
+                console.warn('TTS voices not ready yet');
+                triggerEffects(text);
+                return;
+            }
+
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.pitch = Math.random() * 1.9 + 0.1;
             utterance.rate = Math.random() * 1 + 0.8;
             utterance.volume = 1;
 
-            // Randomize language
-            const voices = synth.getVoices();
-            if (voices.length > 0) {
-                const randomVoice = voices[Math.floor(Math.random() * voices.length)];
-                utterance.voice = randomVoice;
-                utterance.lang = randomVoice.lang;
-            }
+            const randomVoice = voices[Math.floor(Math.random() * voices.length)];
+            utterance.voice = randomVoice;
+            utterance.lang = randomVoice.lang;
 
             synth.speak(utterance);
             triggerEffects(text);
         }
 
         function triggerEffects(text) {
-            // Extreme earthquake effect
-            document.body.style.animation = 'earthquake 1s linear';
-            setTimeout(() => document.body.style.animation = '', 1000);
+            const container = document.querySelector('.container');
+            
+            container.style.animation = 'intense-earthquake 1s ease-in-out';
+            setTimeout(() => {
+                container.style.animation = '';
+            }, 1000);
 
-            // Extreme lightning effect
             for (let i = 0; i < 5; i++) {
                 setTimeout(() => {
                     const lightning = document.createElement('div');
                     lightning.className = 'lightning';
-                    lightning.style.left = `${Math.random() * 100}%`;
-                    lightning.style.top = `${Math.random() * 100}%`;
                     document.body.appendChild(lightning);
                     setTimeout(() => lightning.remove(), 500);
                 }, i * 200);
             }
 
-            // Glitchy text effect
             const effect = document.createElement('div');
             effect.className = 'effect';
             effect.innerText = text;
-            effect.style.left = `${Math.random() * 80 + 10}%`;
-            effect.style.top = `${Math.random() * 80 + 10}%`;
             document.body.appendChild(effect);
             setTimeout(() => effect.remove(), 600);
+
+            const weirdEmojis = ['👁️‍🗨️', '🦷', '👾', '🧠', '👽', '🦠', '🤖', '🕳️', '💾', '🪐', '🧬', '🩻', '🦿', '🦾', '🧑‍🚀'];
+            for (let i = 0; i < 8; i++) {
+                const emoji = document.createElement('div');
+                emoji.className = 'weird-emoji';
+                emoji.innerText = weirdEmojis[Math.floor(Math.random() * weirdEmojis.length)];
+                emoji.style.left = `${Math.random() * 100}%`;
+                emoji.style.top = `${Math.random() * 100}%`;
+                emoji.style.animationDelay = `${Math.random() * 2}s`;
+                document.body.appendChild(emoji);
+                setTimeout(() => emoji.remove(), 8000);
+            }
+
+            document.body.style.backgroundImage = `linear-gradient(${Math.random() * 360}deg, #ff00ff33, #ff8c0033, #00ffcc33)`;
+            document.body.style.animation = 'gradient-glitch 1s linear';
+            setTimeout(() => {
+                document.body.style.backgroundImage = 'linear-gradient(45deg, #ff00ff33, #00ffcc33)';
+                document.body.style.animation = 'glitch-bg 4s infinite, pulse-bg 5s infinite';
+            }, 1000);
         }
 
-        window.speechSynthesis.onvoiceschanged = () => synth.getVoices();
+        function dismissWarning() {
+            const warningModal = document.getElementById('seizure-warning');
+            const mainContainer = document.getElementById('main-container');
+            warningModal.style.display = 'none';
+            mainContainer.style.display = 'block';
+        }
     </script>
 </body>
 </html>
